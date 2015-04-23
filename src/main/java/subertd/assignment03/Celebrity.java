@@ -16,9 +16,8 @@ public class Celebrity {
 
     private List<Sighting> sightings = new ArrayList<Sighting>();
 
-    public Celebrity(final String imdbId, final String name) {
-        this.imdbId = imdbId;
-        this.name = name;
+    public Celebrity() {
+        super();
     }
 
     public String getImdbId() {

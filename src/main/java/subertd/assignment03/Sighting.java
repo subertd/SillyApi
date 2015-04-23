@@ -2,9 +2,6 @@ package subertd.assignment03;
 
 import java.util.Date;
 
-/**
- * Created by Donald on 4/22/2015.
- */
 public class Sighting {
 
     private Double latitude;

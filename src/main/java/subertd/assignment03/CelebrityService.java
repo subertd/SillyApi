@@ -8,9 +8,11 @@ import java.util.List;
  */
 public interface CelebrityService {
 
+    Celebrity addCelebrity(Celebrity celebrity);
+
     Celebrity getCelebrityByImdbId(String imdbId);
 
     List<Celebrity> getCelebritiesByName(String name);
 
-    void addSighting(String imdbId, Sighting stighting);
+    Celebrity addSighting(String imdbId, Sighting stighting);
 }
