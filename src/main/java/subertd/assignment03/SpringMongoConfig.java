@@ -28,7 +28,7 @@ public class SpringMongoConfig extends AbstractMongoConfiguration {
     @Override
     public String getDatabaseName() {
         final String database = "cs496assignment3part2";
-        logger.log(Level.INFO, "MongoDB db = " + database);
+        logger.log(Level.INFO, "MongoDB db: " + database);
         return database;
     }
 
@@ -43,7 +43,7 @@ public class SpringMongoConfig extends AbstractMongoConfiguration {
 
         Mongo connection;
 
-        if (environmentHost == null && environmentPort != null
+        if (environmentHost != null && environmentPort != null
 //                && environmentUserName != null && environmentPassword != null
                 ) {
 
