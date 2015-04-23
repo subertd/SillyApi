@@ -3,6 +3,9 @@ package subertd.assignment03;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Document
 public class Celebrity {
 
@@ -10,6 +13,8 @@ public class Celebrity {
     private String imdbId;
 
     private String name;
+
+    private List<Sighting> sightings = new ArrayList<Sighting>();
 
     public Celebrity(final String imdbId, final String name) {
         this.imdbId = imdbId;
@@ -30,6 +35,14 @@ public class Celebrity {
 
     public void setName(final String name) {
         this.name = name;
+    }
+
+    public List<Sighting> getSightings() {
+        return sightings;
+    }
+
+    public void setSightings(List<Sighting> sightings) {
+        this.sightings = sightings;
     }
 
     @Override

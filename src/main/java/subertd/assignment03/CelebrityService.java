@@ -1,5 +1,6 @@
 package subertd.assignment03;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -10,4 +11,6 @@ public interface CelebrityService {
     Celebrity getCelebrityByImdbId(String imdbId);
 
     List<Celebrity> getCelebritiesByName(String name);
+
+    void addSighting(String imdbId, Sighting stighting);
 }

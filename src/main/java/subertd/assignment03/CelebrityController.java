@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -48,5 +49,19 @@ public class CelebrityController {
         logger.entering(CelebrityController.class.getName(),
                 "celebritiesByName(" + name + ")");
         return celebrityService.getCelebritiesByName(name);
+    }
+
+    @RequestMapping(value = "/addSighting/{IMDb_ID}", method = RequestMethod.PUT,
+            consumes = "application/json")
+    public void addSighting(@PathVariable("IMDb_ID") String imdbId,
+                            @RequestBody Sighting sighting) {
+        celebrityService.addSighting(imdbId, sighting);
+    }
+
+    @RequestMapping(value = "/testPost/{IMDb_ID}", method = RequestMethod.POST,
+            consumes = "application/json")
+    public void test(@PathVariable("IMDb_ID") String imdbId,
+                     @RequestBody String text) {
+        System.out.println("IMDb_ID: " + imdbId + "; text: " + text);
     }
 }

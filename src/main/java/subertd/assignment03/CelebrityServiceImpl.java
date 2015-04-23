@@ -38,4 +38,17 @@ public class CelebrityServiceImpl implements CelebrityService {
     public List<Celebrity> getCelebritiesByName(String name) {
         return celebrityRepository.findByName(name);
     }
+
+    @Override
+    public void addSighting(final String imdbId, final Sighting sighting) {
+        final Celebrity celebrity = celebrityRepository.findOneByImdbId(
+                imdbId);
+
+        if (celebrity != null
+                && sighting.getLatitude() != null
+                && sighting.getLongitude() != null
+                && sighting.getDatetime() != null)
+        celebrity.getSightings().add(sighting);
+        celebrityRepository.save(celebrity);
+    }
 }
