@@ -14,5 +14,8 @@ public interface CelebrityService {
 
     List<Celebrity> getCelebritiesByName(String name);
 
-    Celebrity addSighting(String imdbId, Sighting stighting);
+    Celebrity addSighting(String imdbId, Sighting sighting);
+
+    List<Celebrity> getCelebritySightingsByLocation(
+            double latitude, double longitude, Integer radius);
 }

@@ -72,4 +72,14 @@ public class CelebrityServiceImpl implements CelebrityService {
 
         return null;
     }
+
+    @Override
+    public List<Celebrity> getCelebritySightingsByLocation(
+            double latitude, double longitude, Integer radius) {
+
+        return celebrityRepository.findCelebritySightingsByLocation(
+                "testName1");
+
+        // TODO implement radius
+    }
 }
