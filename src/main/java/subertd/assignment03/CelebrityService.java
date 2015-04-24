@@ -21,4 +21,6 @@ public interface CelebrityService {
 
     List<CelebritySighting> getCelebritySightingsByLocation(
             double latitude, double longitude);
+
+    void deleteCelebrity(final DeleteCelebrityRequest request);
 }

@@ -98,4 +98,12 @@ public class CelebrityController {
         return celebrityService.getCelebritySightingsByLocation(
                 latitude, longitude);
     }
+
+    @RequestMapping(value = "/deleteCelebrity",
+            method = RequestMethod.DELETE, consumes = "application/json")
+    @ResponseBody
+    public void deleteCelebrity(
+            @RequestBody DeleteCelebrityRequest request) {
+        celebrityService.deleteCelebrity(request);
+    }
 }

@@ -109,4 +109,11 @@ public class CelebrityServiceImpl implements CelebrityService {
 
         return sightings;
     }
+
+    @Override
+    public void deleteCelebrity(DeleteCelebrityRequest request) {
+        final Celebrity celebrity =
+                celebrityRepository.findOneByImdbId(request.getImdbId());
+        celebrityRepository.delete(celebrity);
+    }
 }
