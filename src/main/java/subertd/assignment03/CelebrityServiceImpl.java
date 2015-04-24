@@ -3,6 +3,7 @@ package subertd.assignment03;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -74,12 +75,38 @@ public class CelebrityServiceImpl implements CelebrityService {
     }
 
     @Override
-    public List<Celebrity> getCelebritySightingsByLocation(
-            double latitude, double longitude, Integer radius) {
+    public List<Celebrity> getCelebritiesByLocation(
+            final double latitude, final double longitude)
+    {
+        return celebrityRepository.findCelebritiesByLocation(
+                latitude, longitude);
+    }
 
-        return celebrityRepository.findCelebritySightingsByLocation(
-                "testName1");
+    @Override
+    public List<CelebritySighting> getCelebritySightingsByLocation(
+            final double latitude, final double longitude)
+    {
+        final List<Celebrity> celebrities =
+                celebrityRepository.findCelebritiesByLocation(
+                latitude, longitude);
 
-        // TODO implement radius
+        final List<CelebritySighting> sightings =
+                new ArrayList<CelebritySighting>();
+
+        for (Celebrity celebrity : celebrities) {
+            for (Sighting sighting : celebrity.getSightings()) {
+                final CelebritySighting celebritySighting =
+                        CelebritySightingFactory.getInstance(
+                                celebrity.getImdbId(), celebrity.getName(), sighting);
+
+                if (celebritySighting.getLatitude() == latitude
+                        && celebritySighting.getLongitude() == longitude)
+                {
+                    sightings.add(celebritySighting);
+                }
+            }
+        }
+
+        return sightings;
     }
 }

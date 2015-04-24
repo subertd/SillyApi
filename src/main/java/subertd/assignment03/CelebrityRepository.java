@@ -11,16 +11,9 @@ public interface CelebrityRepository extends CrudRepository<Celebrity, String> {
 
     List<Celebrity> findByName(String name);
 
-    /*
     @Query(
-        "{ $unwind: $sightings }"
-        + "{ $match: { 'sightings.latitude': 'latitude' }"
-                + "{ 'sightings.longitude': 'longitude' }"
+        "{ 'sightings.latitude' : ?0, 'sightings.longitude': ?1 }"
     )
-    List<CelebritySighting> findCelebritySightingsByLocation(
+    List<Celebrity> findCelebritiesByLocation(
             double latitude, double longitude);
-*/
-
-    @Query(value = "{ 'name':?0 }")
-    List<Celebrity> findCelebritySightingsByLocation(String name);
 }

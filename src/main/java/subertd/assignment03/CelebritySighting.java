@@ -1,5 +1,7 @@
 package subertd.assignment03;
 
+import java.util.Date;
+
 public class CelebritySighting {
 
     private String imdbId;
@@ -10,7 +12,7 @@ public class CelebritySighting {
 
     private Double longitude;
 
-    private Integer radius;
+    private Date datetime;
 
     public String getImdbId() {
         return imdbId;
@@ -44,11 +46,27 @@ public class CelebritySighting {
         this.longitude = longitude;
     }
 
-    public Integer getRadius() {
-        return radius;
+    public Date getDatetime() {
+        return datetime;
     }
 
-    public void setRadius(Integer radius) {
-        this.radius = radius;
+    public void setDatetime(Date datetime) {
+        this.datetime = datetime;
+    }
+
+    @Override
+    public String toString() {
+        return new StringBuffer()
+            .append("imdbId: ")
+            .append(imdbId)
+            .append("; name")
+            .append(name)
+            .append("; latitude: ")
+            .append(latitude)
+            .append("; longitude: ")
+            .append(longitude)
+            .append("; datetime: ")
+            .append(datetime)
+            .toString();
     }
 }

@@ -69,19 +69,33 @@ public class CelebrityController {
         return celebrityService.addSighting(imdbId, sighting);
     }
 
-    @RequestMapping(value = "/sightings/location",
+    @RequestMapping(value = "/celebrities/location",
         method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public List<Celebrity> celebritySightingsByLocation(
+    public List<Celebrity> celebritsByLocation(
             @RequestParam("latitude") double latitude,
-            @RequestParam("longitude") double longitude,
-            @RequestParam(value = "radius", required = false) Integer radius
+            @RequestParam("longitude") double longitude
     ){
         logger.entering(CelebrityController.class.getName(),
                 "celebritySightingsByLocation("
-            + latitude + ", " + longitude + ", " + radius);
+            + latitude + ", " + longitude);
+
+        return celebrityService.getCelebritiesByLocation(
+                latitude, longitude);
+    }
+
+    @RequestMapping(value = "/sightings/location",
+            method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public List<CelebritySighting> celebritySightingsByLocation(
+            @RequestParam("latitude") double latitude,
+            @RequestParam("longitude") double longitude
+    ){
+        logger.entering(CelebrityController.class.getName(),
+                "celebritySightingsByLocation("
+                        + latitude + ", " + longitude);
 
         return celebrityService.getCelebritySightingsByLocation(
-                latitude, longitude, radius);
+                latitude, longitude);
     }
 }

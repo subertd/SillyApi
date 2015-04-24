@@ -16,6 +16,9 @@ public interface CelebrityService {
 
     Celebrity addSighting(String imdbId, Sighting sighting);
 
-    List<Celebrity> getCelebritySightingsByLocation(
-            double latitude, double longitude, Integer radius);
+    List<Celebrity> getCelebritiesByLocation(
+            double latitude, double longitude);
+
+    List<CelebritySighting> getCelebritySightingsByLocation(
+            double latitude, double longitude);
 }
