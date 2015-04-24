@@ -3,12 +3,15 @@ package subertd.assignment03;
 import com.mongodb.Mongo;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoCredential;
+import com.mongodb.ServerAddress;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.authentication.UserCredentials;
 import org.springframework.data.mongodb.config.AbstractMongoConfiguration;
+import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -44,33 +47,38 @@ public class SpringMongoConfig extends AbstractMongoConfiguration {
         final String environmentUserName = System.getenv(ENVIRONMENT_USER_NAME);
         final String environmentPassword = System.getenv(ENVIRONMENT_PASSWORD);
 
-        MongoClient connection; // The connection to establish and return
+        if (logger.isLoggable(Level.INFO)) {
+            logger.log(Level.INFO, new StringBuffer()
+                 .append("Environment MongoDB variablse\n")
+                 .append("host: ").append(environmentHost).append("\n")
+                 .append("port: ").append(environmentPort).append("\n")
+                 .append("userName: ").append(environmentUserName).append("\n")
+                 .append("password: ").append(environmentPassword)
+                 .toString()
+            );
+        }
 
         if (environmentHost != null && environmentPort != null) {
-            logger.log(Level.INFO, "Attempting a MongoDB connection with\n"
-                            + "host: " + environmentHost + "\n"
-                            + "port: " + environmentPort + "\n"
-                            + "userName" + environmentUserName + "\n"
-                            + "password" + environmentPassword
-            );
 
-            connection = new MongoClient(environmentHost,
-                    Integer.parseInt(environmentPort));
+            final ServerAddress serverAddress = new ServerAddress(
+                    environmentHost, Integer.parseInt(environmentPort));
 
             if (environmentUserName != null && environmentPassword != null) {
-                List<MongoCredential> credentialsList = connection.getCredentialsList();
-                credentialsList.add(MongoCredential.createCredential(
+
+                MongoCredential credential = MongoCredential.createCredential(
                         environmentUserName,
                         getDatabaseName(),
-                        environmentPassword.toCharArray()
-                ));
+                        environmentPassword.toCharArray());
+
+                return new MongoClient(
+                        serverAddress, Arrays.asList(credential));
+            }
+            else {
+                return new MongoClient(serverAddress);
             }
         }
         else { // If environment variables are not provided, use the default
-            connection = new MongoClient(DEFAULT_HOST);
+            return new MongoClient(DEFAULT_HOST);
         }
-
-        logger.log(Level.INFO, "MongoDB connection: " + connection);
-        return connection;
     }
 }
