@@ -128,8 +128,8 @@ public class CelebrityServiceImpl implements CelebrityService {
                     CelebritySightingFactory.getInstance(
                         celebrity.getImdbId(), celebrity.getName(), sighting);
 
-                if (celebritySighting.getLatitude().equals(latitude)
-                    && celebritySighting.getLongitude().equals(longitude)
+                if ((latitude == null || celebritySighting.getLatitude().equals(latitude))
+                    && (longitude == null || celebritySighting.getLongitude().equals(longitude))
                     && isBetweenDates(celebritySighting.getDatetime(), startDate, endDate))
                 {
                     sightings.add(celebritySighting);
