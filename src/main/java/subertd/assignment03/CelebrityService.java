@@ -1,6 +1,5 @@
 package subertd.assignment03;
 
-import java.util.Date;
 import java.util.List;
 
 public interface CelebrityService {

@@ -1,11 +1,8 @@
 package subertd.assignment03;
 
-import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -17,11 +14,6 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by Donald on 4/26/2015.
- */
-//@RunWith(Suite.class)
-//@Suite.SuiteClasses({ CelebrityServiceImplTest.class })
 public class CelebrityServiceImplTest {
 
     private static final Double validLatitude = 5.8;
@@ -43,7 +35,8 @@ public class CelebrityServiceImplTest {
     private static Celebrity celebrity3;
 
     private static List<CelebritySighting> fullList;
-    private static List<CelebritySighting> filteredList;
+    private static List<CelebritySighting> filteredList1;
+    private static List<CelebritySighting> filteredList2;
 
     @Mock
     private CelebrityRepository repository;
@@ -87,8 +80,12 @@ public class CelebrityServiceImplTest {
         fullList.add(CelebritySightingFactory.getInstance("testId2", "testName", sighting2));
         fullList.add(CelebritySightingFactory.getInstance("testId3", "testName", sighting3));
 
-        filteredList = new ArrayList<CelebritySighting>();
-        filteredList.add(fullList.get(1));
+        filteredList1 = new ArrayList<CelebritySighting>();
+        filteredList1.add(fullList.get(1));
+
+        filteredList2 = new ArrayList<CelebritySighting>();
+        filteredList2.add(fullList.get(1));
+        filteredList2.add(fullList.get(2));
 
         celebrities = Arrays.asList(celebrity1, celebrity2, celebrity3);
     }
@@ -112,11 +109,21 @@ public class CelebrityServiceImplTest {
         Mockito.verify(repository).findCelebritiesByLocation(validLatitude, validLongitude);
     }
 
+
+
     @Test
     public void testQueryCelebrities_noParameters_shouldReturnFullList() {
         Mockito.when(repository.findCelebrities()).thenReturn(celebrities);
         final List<Celebrity> expected = celebrities;
         final List<Celebrity> actual = service.queryCelebrities(null, null, null, null);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testQueryCelebrities_validStart_shouldFilterByDateToCurrent() {
+        Mockito.when(repository.findCelebrities()).thenReturn(celebrities);
+        final List<Celebrity> expected = Arrays.asList(celebrity2, celebrity3);
+        final List<Celebrity> actual = service.queryCelebrities(datetime1 + 1, null, null, null);
         assertEquals(expected, actual);
     }
 
@@ -137,28 +144,55 @@ public class CelebrityServiceImplTest {
         assertEquals(expected, actual);
     }
 
+
+
     @Test
     public void testQueryCelebritySightings_noParameters_shouldReturnFullList() {
         Mockito.when(repository.findCelebrities()).thenReturn(celebrities);
         final List<CelebritySighting> expected = fullList;
         final List<CelebritySighting> actual = service.queryCelebritySightings(null, null, null, null);
-        assertEquals(expected, actual);
+        assertCelebritySightingListEquals(expected, actual);
     }
 
     @Test
     public void testQueryCelebritySightings_validStartAndEnd_shouldFilterByDate() {
         Mockito.when(repository.findCelebrities()).thenReturn(celebrities);
-        final List<CelebritySighting> expected = filteredList;
+        final List<CelebritySighting> expected = filteredList1;
         final List<CelebritySighting> actual = service.queryCelebritySightings(datetime1 + 1, datetime3 - 1, null, null);
-        assertEquals(expected, actual);
+        assertCelebritySightingListEquals(expected, actual);
+    }
+
+    @Test
+    public void testQueryCelebritySightings_validStart_shouldFilterByDateToCurrent() {
+        Mockito.when(repository.findCelebrities()).thenReturn(celebrities);
+        final List<CelebritySighting> expected = filteredList2;
+        final List<CelebritySighting> actual = service.queryCelebritySightings(datetime1 + 1, null, null, null);
+        assertCelebritySightingListEquals(expected, actual);
     }
 
     @Test
     public void testQueryCelebritySightings_validStartEndLatitudeAndLongitude_shouldFilterByDate() {
         Mockito.when(repository.findCelebritiesByLocation(validLatitude, validLongitude)).thenReturn(celebrities);
-        final List<CelebritySighting> expected = filteredList;
+        final List<CelebritySighting> expected = filteredList1;
         final List<CelebritySighting> actual = service.queryCelebritySightings(
                 datetime1 + 1, datetime3 - 1, validLatitude, validLongitude);
-        assertEquals(expected, actual);
+        assertCelebritySightingListEquals(expected, actual);
+    }
+
+    private void assertCelebritySightingListEquals(final List<CelebritySighting> expected,
+                                                   final List<CelebritySighting> actual)
+    {
+        assertEquals("Different number of elements", expected.size(), actual.size());
+
+        for (int i = 0; i < expected.size(); i++) {
+            CelebritySighting expectedSighting = expected.get(i);
+            CelebritySighting actualSighting = actual.get(i);
+
+            assertEquals(expectedSighting.getImdbId(), actualSighting.getImdbId());
+            assertEquals(expectedSighting.getName(), actualSighting.getName());
+            assertEquals(expectedSighting.getLatitude(), actualSighting.getLatitude());
+            assertEquals(expectedSighting.getLongitude(), actualSighting.getLongitude());
+            assertEquals(expectedSighting.getDatetime(), actualSighting.getDatetime());
+        }
     }
 }
