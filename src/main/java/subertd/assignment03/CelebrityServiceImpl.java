@@ -120,7 +120,7 @@ public class CelebrityServiceImpl implements CelebrityService {
         }
 
         final List<CelebritySighting> sightings =
-                new ArrayList<CelebritySighting>();
+                new ArrayList<>();
 
         for (Celebrity celebrity : celebrities) {
             for (Sighting sighting : celebrity.getSightings()) {
@@ -156,7 +156,7 @@ public class CelebrityServiceImpl implements CelebrityService {
             endDate = new Date(end);
         }
 
-        List<Celebrity> filteredCelebrities = new ArrayList<Celebrity>();
+        List<Celebrity> filteredCelebrities = new ArrayList<>();
 
         for (Celebrity celebrity : celebrities) {
             for (Sighting sighting : celebrity.getSightings()) {

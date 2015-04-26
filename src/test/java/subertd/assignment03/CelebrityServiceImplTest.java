@@ -18,8 +18,8 @@ public class CelebrityServiceImplTest {
 
     private static final Double validLatitude = 5.8;
     private static final Double validLongitude = 87.0;
-    private static final Long validStart = new Long(35283);
-    private static final Long validEnd = new Long(666667);
+    private static final Long validStart = 35283L;
+    private static final Long validEnd = 666667L;
     private static List<Celebrity> celebrities;
 
     private static final Long datetime1 = 0L;
@@ -75,15 +75,15 @@ public class CelebrityServiceImplTest {
         celebrity3.setName("testName");
         celebrity3.setSightings(Arrays.asList(sighting3));
 
-        fullList = new ArrayList<CelebritySighting>();
+        fullList = new ArrayList<>();
         fullList.add(CelebritySightingFactory.getInstance("testId1", "testName", sighting1));
         fullList.add(CelebritySightingFactory.getInstance("testId2", "testName", sighting2));
         fullList.add(CelebritySightingFactory.getInstance("testId3", "testName", sighting3));
 
-        filteredList1 = new ArrayList<CelebritySighting>();
+        filteredList1 = new ArrayList<>();
         filteredList1.add(fullList.get(1));
 
-        filteredList2 = new ArrayList<CelebritySighting>();
+        filteredList2 = new ArrayList<>();
         filteredList2.add(fullList.get(1));
         filteredList2.add(fullList.get(2));
 
